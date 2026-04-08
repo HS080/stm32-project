@@ -1,5 +1,6 @@
 #include "stm32f1xx.h"
 void SystemClock_Config(void);
+	uint8_t num=0;
 
 void SW_Init(void)
 {
@@ -15,7 +16,7 @@ void GPIO_Init(void)
 {
 	GPIO_InitTypeDef zhanglele;
 	zhanglele.Mode=GPIO_MODE_OUTPUT_PP;
-	zhanglele.Pin=GPIO_PIN_8|GPIO_PIN_12;
+	zhanglele.Pin=GPIO_PIN_8|GPIO_PIN_9|GPIO_PIN_12;
 	zhanglele.Pull=GPIO_NOPULL;
 	zhanglele.Speed=GPIO_SPEED_FREQ_MEDIUM;
 	__HAL_RCC_GPIOA_CLK_ENABLE();
@@ -24,6 +25,7 @@ void GPIO_Init(void)
 
 int main(void)
 {
+
 	uint8_t flag=1;
 	HAL_Init();
 	SystemClock_Config();
@@ -49,19 +51,39 @@ int main(void)
 			 HAL_Delay(10);
 			 if(HAL_GPIO_ReadPin(GPIOA,GPIO_PIN_0)==1)
 			 {
-				 HAL_GPIO_TogglePin(GPIOA,GPIO_PIN_12);
+//				 HAL_GPIO_TogglePin(GPIOA,GPIO_PIN_12);
 				 flag=0;
-			 }
-			 
-		
+			 }			 
 		 }
-		 else if(HAL_GPIO_ReadPin(GPIOA,GPIO_PIN_0)==0)
+		 else if((HAL_GPIO_ReadPin(GPIOA,GPIO_PIN_0)==0)&&(flag==0))
 		 {
 			 flag=1;
+			 num++;
+			 if(num==3)
+				 num=1;
 		 }
 
+	 if(num==1)
+	{
+		HAL_GPIO_WritePin(GPIOA,GPIO_PIN_12,GPIO_PIN_RESET);
+		HAL_GPIO_WritePin(GPIOA,GPIO_PIN_9,GPIO_PIN_SET);
+		HAL_Delay(300);
+		HAL_GPIO_WritePin(GPIOA,GPIO_PIN_12,GPIO_PIN_SET);
+		HAL_GPIO_WritePin(GPIOA,GPIO_PIN_9,GPIO_PIN_RESET);
+		HAL_Delay(300);
+	 }
+	if(num==2)
+	{
+		HAL_GPIO_WritePin(GPIOA,GPIO_PIN_12,GPIO_PIN_SET);
+		HAL_GPIO_WritePin(GPIOA,GPIO_PIN_9,GPIO_PIN_SET);
+		HAL_Delay(300);
+		HAL_GPIO_WritePin(GPIOA,GPIO_PIN_12,GPIO_PIN_RESET);
+		HAL_GPIO_WritePin(GPIOA,GPIO_PIN_9,GPIO_PIN_RESET);
+		HAL_Delay(300);
+		
+		 
+	 }
 	}
-
 }
 void Error_Handler(void)
 {

@@ -1,0 +1,7 @@
+*.o
+*.axf
+*.hex
+Build/
+Output/
+Listings/
+Thumbs.db
