@@ -1,0 +1,25 @@
+# 忽略编译产物
+*.o
+*.d
+*.crf
+*.axf
+*.hex
+*.lst
+*.map
+*.bak
+*.lnp
+*.uvguix.*
+*.uvoptx
+MDK-ARM/Objects/
+MDK-ARM/Listings/
+
+# 忽略系统垃圾
+.DS_Store
+Desktop.ini
+Thumbs.db
+*.log
+*.tmp
+
+# 忽略IDE配置
+/.vscode/
+/.idea/
